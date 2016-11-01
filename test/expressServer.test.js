@@ -1,13 +1,13 @@
 const chai      = require('chai');
 const chaiHttp  = require('chai-http');
 const assert    = chai.assert;
-const server    = require('../lib/httpServer');
+const server    = require('../lib/app');
 chai.use(chaiHttp);
 
-describe('http single resource promise server', () => {
+describe('express single resource promise server', () => {
     
     let request = chai.request(server);
-    const port = 8999;
+    const port = 3000;
 
     before(done => {
         server.listen({port, port}, done);
@@ -21,7 +21,7 @@ describe('http single resource promise server', () => {
                 else {
                     assert.deepEqual(res.body, {'id':'nyan','age':5,'color':'gray and poptart'});
                     done();
-                };
+                }
             });
     });
 
@@ -42,7 +42,7 @@ describe('http single resource promise server', () => {
             .end((err, res) => {
                 if (err) return done(err);
                 else {
-                    assert.deepEqual(res.text.split(','), ['0.json', '1.json', '2.json']);
+                    assert.deepEqual(res.body.data(','), ['0.json', '1.json', '2.json']);
                     done();
                 };
             });
