@@ -42,7 +42,7 @@ describe('express single resource promise server', () => {
             .end((err, res) => {
                 if (err) return done(err);
                 else {
-                    assert.deepEqual(res.body.data(','), ['0.json', '1.json', '2.json']);
+                    assert.deepEqual(res.body.data, ['0.json', '1.json', '2.json']);
                     done();
                 };
             });
