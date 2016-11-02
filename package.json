@@ -2,7 +2,7 @@
   "name": "express-single-resource",
   "version": "1.0.0",
   "description": "-I promise this will work!",
-  "main": "index.js",
+  "main": "server.js",
   "directories": {
     "test": "test"
   },
@@ -29,6 +29,7 @@
     "superagent": "^2.3.0"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "sander": "^0.5.1"
   }

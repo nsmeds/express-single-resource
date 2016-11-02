@@ -15,7 +15,7 @@ describe('express single resource promise server', () => {
 
     it('checks to see that we can retrieve a given cat with GET', done => {
         request
-            .get('/cats/1')
+            .get('/records/1')
             .end((err, res) => {
                 if (err) return done(err);
                 else {
