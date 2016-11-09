@@ -13,9 +13,9 @@ describe('express single resource promise server', () => {
         server.listen({port, port}, done);
     });
 
-    const recordExample = {"id":0,"artist":"Bill Fay","title":"Time of the Last Persecution"};
+    const recordExample = {"artist":"Bill Fay","title":"Time of the Last Persecution"};
 
-    const recordExample2 = {"id":"0","artist":"Willie Nelson","title":"Phases and Stages"};
+    const recordExample2 = {"artist":"Willie Nelson","title":"Phases and Stages"};
 
     it('wants to see if POST works', done => {
         request

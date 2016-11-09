@@ -43,8 +43,4 @@ module.exports = class Store {
       else reject({code:400, error: `id "${id}" does not exist`});
     });
   }
-
-  length() {
-    return Promise.resolve(this.data.length);
-  }
 };
