@@ -7,6 +7,7 @@
     "test": "test"
   },
   "scripts": {
+    "start": "npm test && node index.js",
     "pretest": "npm run lint",
     "test": "mocha",
     "test:watch": "npm test -w",

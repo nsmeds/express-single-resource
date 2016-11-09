@@ -47,4 +47,4 @@ module.exports = class Store {
   length() {
     return Promise.resolve(this.data.length);
   }
-}
+};

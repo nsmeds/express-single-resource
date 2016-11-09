@@ -3,7 +3,7 @@ const bodyParser = require('body-parser').json();
 const Record = require('../models/record');
 const router = express.Router();
 
-module.exports = router 
+router 
   .get('/', (req, res, next) => {
     Record.getAll()
       .then(records => res.send(records))
@@ -25,7 +25,9 @@ module.exports = router
       .catch(next);
   })
   .put('/:id', bodyParser, (req, res, next) => {
-    Record.update(req.params.id, body)
+    Record.update(req.params.id, req.body)
       .then(saved => res.send(saved))
       .catch(next);
   });
+
+  module.exports = router;

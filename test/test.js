@@ -13,13 +13,31 @@ describe('express single resource promise server', () => {
         server.listen({port, port}, done);
     });
 
-    it('checks to see that we can retrieve a given cat with GET', done => {
+    const recordExample = {"id":0,"artist":"Bill Fay","title":"Time of the Last Persecution"};
+
+    const recordExample2 = {"id":"0","artist":"Willie Nelson","title":"Phases and Stages"};
+
+    it('wants to see if POST works', done => {
         request
-            .get('/records/1')
+            .post('/records')
+            .set('Content-Type', 'application/json')
+            .send(recordExample)
             .end((err, res) => {
                 if (err) return done(err);
                 else {
-                    assert.deepEqual(res.body, {'id':'nyan','age':5,'color':'gray and poptart'});
+                    assert.deepEqual(res.body, recordExample);
+                    done();
+                }
+            });
+    });
+
+    it('checks to see that we can retrieve a given cat with GET', done => {
+        request
+            .get('/records/0')
+            .end((err, res) => {
+                if (err) return done(err);
+                else {
+                    assert.deepEqual(res.body, recordExample);
                     done();
                 }
             });
@@ -27,9 +45,9 @@ describe('express single resource promise server', () => {
 
     it('checks to see that we can retrieve a given cat with GET using a promise chain', () => {
         request
-            .get('/cats/1')
+            .get('/records/0')
             .then(data => {
-                assert.deepEqual(data.body, {'id':'nyan','age':5,'color':'gray and poptart'});
+                assert.deepEqual(data.body, recordExample);
             })
             .catch(err => {
                 console.log(err);
@@ -38,103 +56,40 @@ describe('express single resource promise server', () => {
 
     it('wants to see if we get a list of all resources', done => {
         request
-            .get('/cats')
+            .get('/records')
             .end((err, res) => {
                 if (err) return done(err);
                 else {
-                    assert.deepEqual(res.body.data, ['0.json', '1.json', '2.json']);
+                    assert.deepEqual(res.body, [recordExample]);
                     done();
-                };
+                }
             });
     });
 
     it('wants to see if PUT will update a given file', done => {
         request
-            .put('/cats/0')
+            .put('/records/0')
             .set('Content-Type', 'application/json')
-            .send('{"id":"felix","age":8,"color":"orange"}')
+            .send(recordExample2)
             .end((err, res) => {
                 if (err) return done(err);
                 else {
-                    assert.equal(res.text, 'put good, your resource id is 0');
+                    assert.deepEqual(res.body, recordExample2);
                     done();
                 }
             });
     });
 
-    it('checks to see that the last file was updated during PUT operation', done => {
+    it('wants to see if DELETE will delete', done => {
         request
-            .get('/cats/0')
+            .del('/records/0')
             .end((err, res) => {
                 if (err) return done(err);
                 else {
-                    assert.deepEqual(res.body, {'id':'felix','age':8,'color':'orange'});
-                    done();
-                };
-            });
-    });
-
-    it('wants to see if POST works', done => {
-        request
-            .post('/cats')
-            .set('Content-Type', 'application/json')
-            .send('{"id":"carl","age":10,"color":"gray"}')
-            .end((err, res) => {
-                if (err) return done(err);
-                else {
-                    assert.equal(res.text, 'post good, your resource id is 3');
-                    done();
-                };
-            });
-    });
-
-    it('wants to see if PUT will act like POST if file is not present', done => {
-        request
-            .put('/cats/8')
-            .set('Content-Type', 'application/json')
-            .send('{"id":"felix","age":8,"color":"orange"}')
-            .end((err, res) => {
-                if (err) return done(err);
-                else {
-                    assert.equal(res.text, 'put good, your resource id is 8');
-                    done();
-                }
-            });
-    });
-
-    it('wants to see if DELETE will delete the last thing we PUT in', done => {
-        request
-            .del('/cats/8')
-            .end((err, res) => {
-                if (err) return done(err);
-                else {
-                    assert.equal(res.text, 'File was deleted');
-                    done();
-                }
-            });
-    });
-
-    it('wants to see if DELETE works on what we POSTED', done => {
-        request
-            .del('/cats/3')
-            .end((err, res) => {
-                if (err) return done(err);
-                else {
-                    assert.equal(res.text, 'File was deleted');
+                    assert.deepEqual(res.body, recordExample2);
                     done();
                 }
             });
     });
    
-    it('returns an error if trying to DELETE a non-existent file', done => {
-        request
-            .del('/cats/non-existent-cat')
-            .end((err, res) => {
-                if (err) return done(err);
-                else {
-                    assert.equal(res.text, 'No such file exists');
-                    done();
-                }
-            });
-    }); 
 });
